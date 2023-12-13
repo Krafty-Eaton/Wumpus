@@ -12,20 +12,25 @@ public class Spawn : MonoBehaviour
     void Start()
     {
         SpawnPlayers();
-		random(wumpus);
-		random(bats);
-		random(hole);
+		//random(wumpus);
+		//random(bats);
+		//random(hole);
     }
 	
 	void SpawnPlayers()
 	{
-		Vector3 random_player= new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);		
-		player.transform.position = random_player;
-		var p = player.transform.position;
-		var b = bats.transform.position;
-		var w = wumpus.transform.position;
-		var h = hole.transform.position;
-		
+		Vector3 random_player= new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);
+		Vector3 random_wumpus= new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);
+		Vector3 random_bats= new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);
+		Vector3 random_hole= new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);
+		var p = player.transform.position = random_player;
+		var b = bats.transform.position = random_bats;
+		var w = wumpus.transform.position = random_wumpus;
+		var h = hole.transform.position = random_hole;
+		Debug.Log(p);
+		Debug.Log(b);
+		Debug.Log(w);
+		Debug.Log(h);
 		if(p == b || b == w || b == h)
 		{
 			Destroy(bats);
