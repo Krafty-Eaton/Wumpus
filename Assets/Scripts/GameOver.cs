@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class GameOver : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+        Gameover();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+		
     }
+	void Gameover()
+	{
+		if(transform.position == GameObject.FindWithTag("Enemy").transform.position)
+		{
+			Debug.Log("Game Over");
+		}
+	}
 }
