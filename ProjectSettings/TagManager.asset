@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Random
+  - Wumpus
+  - Hole
   layers:
   - Default
   - TransparentFX

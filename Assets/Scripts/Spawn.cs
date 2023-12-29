@@ -12,9 +12,6 @@ public class Spawn : MonoBehaviour
     void Start()
     {
         SpawnPlayers();
-		//random(wumpus);
-		//random(bats);
-		//random(hole);
     }
 	
 	void SpawnPlayers()
@@ -51,6 +48,7 @@ public class Spawn : MonoBehaviour
 	void random(GameObject obj)
 	{
 		Vector3 random_player= new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);
-		Instantiate(obj, random_player, Quaternion.identity);
+		GameObject clone = Instantiate(obj, random_player, Quaternion.identity);
+		clone.name = obj.name;
 	}
 }
