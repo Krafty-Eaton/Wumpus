@@ -1,54 +1,83 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Spawn : MonoBehaviour
 {
+	[SerializeField] private GridManager gridm;
+	[SerializeField] public int _maxHeight, _maxWidth;
+	
 	[SerializeField] private GameObject player;
-	[SerializeField] private GameObject wumpus;
-	[SerializeField] private GameObject bats;
-	[SerializeField] private GameObject hole;
+	[SerializeField] public static GameObject[] wumpus;
+	[SerializeField] public static GameObject[] bats;
+	[SerializeField] public static GameObject[] hole;
+	
+	[SerializeField] private GameObject w;
+	[SerializeField] private GameObject b;
+	[SerializeField] private GameObject h;
+	
+	public static List<Vector3> loc = new List<Vector3>();
     // Start is called before the first frame update
     void Start()
     {
-        SpawnPlayers();
+		wumpus = new GameObject[Menu.store[0]];
+		bats = new GameObject[Menu.store[1]];
+		hole = new GameObject[Menu.store[2]];
+		
+		_maxHeight = gridm.height;
+		_maxWidth = gridm.width;
+		Spawncc();
     }
-	
-	void SpawnPlayers()
+	void Spawncc()
 	{
-		Vector3 random_player= new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);
-		Vector3 random_wumpus= new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);
-		Vector3 random_bats= new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);
-		Vector3 random_hole= new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);
-		var p = player.transform.position = random_player;
-		var b = bats.transform.position = random_bats;
-		var w = wumpus.transform.position = random_wumpus;
-		var h = hole.transform.position = random_hole;
-		Debug.Log(p);
-		Debug.Log(b);
-		Debug.Log(w);
-		Debug.Log(h);
-		if(p == b || b == w || b == h)
+		Vector3 random_player= new Vector3(Random.Range(0,_maxWidth), Random.Range(0,_maxHeight), 0);
+		player.transform.position = random_player;
+				
+		List<Vector3> tot = new List<Vector3>();
+		
+		while (tot.Count <= Menu.store[0] + Menu.store[1] + Menu.store[2])
 		{
-			Destroy(bats);
-			random(bats);
+			Vector3 x = new Vector3(Random.Range(0,_maxWidth), Random.Range(0,_maxHeight), 0);
+			if (!tot.Contains(x) && x != random_player)
+            {
+                tot.Add(x);
+            }
+			//Debug.Log(tot[i]);
 		}
-		if(p == h || h == w || b == h)
+		
+		
+		for (int i = 0; i < Menu.store[0]; i++)
 		{
-			Destroy(hole);
-			random(hole);
+			wumpus[i] = w;
+			//Instantiate(W, tot[i], Quaternion.identity);
+			//Debug.Log(tot[i]);
+			random(wumpus[i], tot[i]);
+			loc.Add(tot[i]);
 		}
-		if(p == w || b == w || w == h)
+		for (int i = 0; i < Menu.store[1]; i++)
 		{
-			Destroy(wumpus);
-			random(wumpus);
+			bats[i] = b;
+			//Instantiate(B, tot[i], Quaternion.identity);
+			//Debug.Log(tot[i]);
+			random(bats[i], tot[i + Menu.store[0]]);
+			loc.Add(tot[i + Menu.store[0]]);
 		}
+		for (int i = 0; i < Menu.store[2]; i++)
+		{
+			hole[i] = h;
+			//Instantiate(H, tot[i], Quaternion.identity);
+			//Debug.Log(tot[i]);
+			random(hole[i], tot[i + Menu.store[0] + Menu.store[1]]);
+			loc.Add(tot[i + Menu.store[0] + Menu.store[1]]);
+		}
+		
 	}
 	
-	void random(GameObject obj)
+	void random(GameObject obj, Vector3 post)
 	{
-		Vector3 random_player= new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);
-		GameObject clone = Instantiate(obj, random_player, Quaternion.identity);
+		GameObject clone = Instantiate(obj, post, Quaternion.identity);
 		clone.name = obj.name;
+		clone.transform.parent = transform;	
 	}
 }

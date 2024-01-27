@@ -5,31 +5,37 @@ using UnityEngine;
 public class RandomB : MonoBehaviour
 {
 	[SerializeField] private GameObject player;
-	[SerializeField] private GameObject bat;
-	[SerializeField] private GameObject wumpus;
-	[SerializeField] private GameObject hole;
-	// Update is called once per frame
+	[SerializeField] private GameObject[] bats;
+	//[SerializeField] private GridManager gridm;
+	
+	[SerializeField] private GridManager gridm;
+	[SerializeField] private int _maxHeight, _maxWidth;
+	
 	
 	void Awake()
 	{
-		player = GameObject.Find("Body player");
-		bat = GameObject.Find("Body bats");
-		hole = GameObject.Find("Body hole");
-		wumpus = GameObject.Find("Body wumpus");
+		player = GameObject.FindWithTag("Player");
+		
 	}
-	
+	void Start()
+	{
+		bats = GameObject.FindGameObjectsWithTag("Random");
+		_maxHeight = gridm.height;
+		_maxWidth = gridm.width;
+	}
     void Update()
     {
 		var p = player.transform.position;
-		var b = bat.transform.position;
-		var w = wumpus.transform.position;
-		var h = hole.transform.position;
-		
-        if (p == b)
+		for(int i = 0; i < bats.Length; i++)
 		{
-			player.transform.position = new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);
-			while( p == w || p == h)
-				player.transform.position = new Vector3(Random.Range(0,5)*4, Random.Range(0,5)*4, 0);
+			if (p == bats[i].transform.position)
+			{
+				p = new Vector3(Random.Range(0, _maxWidth), Random.Range(0, _maxHeight), 0);
+				while(Spawn.loc.Contains(p))
+					p = new Vector3(Random.Range(0, _maxWidth), Random.Range(0, _maxHeight), 0);
+				break;
+			}
 		}
+		player.transform.position = p;
     }
 }
