@@ -26,7 +26,7 @@ public class GameOver : MonoBehaviour
 			hol[i] = holes[i].transform.position;
 		
 		var x = player.transform.position;
-		/*if(hol.Contains(x) || wum.Contains(x))
+		if(hol.Contains(x) || wum.Contains(x))
 		{
 			k = 1;
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -34,7 +34,13 @@ public class GameOver : MonoBehaviour
 		if (wumpus.Count() == 0)
 		{
 			k = 0;
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-		}*/
+			StartCoroutine(DelayFor());
+		}
     }
+	
+	private IEnumerator DelayFor()
+	{
+		yield return new WaitForSeconds(2.0f);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+	}
 }

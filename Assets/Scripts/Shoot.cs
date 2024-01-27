@@ -10,7 +10,6 @@ public class Shoot : MonoBehaviour
 	[SerializeField] private GameObject player;
 	[SerializeField] private GameObject[] wumpus;
 	private Vector3 [] wum = new Vector3[Menu.store[0]];
-	private bool k;
 	private AudioSource audio;
 	
 	void Awake()
@@ -67,13 +66,5 @@ public class Shoot : MonoBehaviour
 				}
 			}
 		}
-		if (wumpus.Count() == 0)
-			StartCoroutine(DelayFor());
     }
-	
-	private IEnumerator DelayFor()
-	{
-		yield return new WaitForSeconds(2.0f);
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-	}
 }

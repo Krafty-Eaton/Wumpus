@@ -12,7 +12,7 @@ public class GridManager : MonoBehaviour
     void Start()
     {
 		cameras.transform.position = new Vector3(width - 0.5f, height/2, -11);
-		field.fieldOfView = cameras.transform.position.x * 10 - 5;
+		field.fieldOfView = 45;
         generate();
     }
 
